@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
+import 'package:todoapp/BL/blocs/todo/todo_filter_bloc.dart';
+import 'package:todoapp/utils/enums.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
 class Home extends StatelessWidget {
@@ -9,80 +11,149 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("المهام اليومية"),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed('/create_todos');
-          },
-          icon: const Icon(CupertinoIcons.add_circled),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("المهام اليومية"),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/create_todos');
+            },
+            icon: const Icon(CupertinoIcons.add_circled),
+          ),
+          bottom: TabBar(
+            onTap: (tapIndex) {
+              switch (tapIndex) {
+                case 0:
+                  BlocProvider.of<TodosFilterBloc>(context).add(
+                    const UpdateFilterTodos(
+                      todosFilter: TodosFilter.pending,
+                    ),
+                  );
+                  break;
+                case 1:
+                  BlocProvider.of<TodosFilterBloc>(context).add(
+                    const UpdateFilterTodos(
+                      todosFilter: TodosFilter.completed,
+                    ),
+                  );
+                  break;
+              }
+            },
+            tabs: const [
+              Tab(
+                icon: Icon(Icons.pending),
+              ),
+              Tab(
+                icon: Icon(Icons.add_task),
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            _todos("المهام المنظرة"),
+            _todos("المهام المكتملة"),
+          ],
         ),
       ),
-      body: BlocBuilder<TodosBloc, TodosState>(
-        builder: (context, state) {
-          if (state is TodosLoading) {
-            return const CircularProgressIndicator();
-          }
-          if (state is TodosLoaded) {
-            return ListView.builder(
-              itemCount: state.todos.length,
-              itemBuilder: (context, i) {
-                return Container(
-                  margin: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    color: TheColors.black,
-                  ),
-                  child: ListTile(
-                    title: Text(
-                      state.todos[i].task,
+    );
+  }
+
+  BlocConsumer<TodosFilterBloc, TodosFilterState> _todos(String title) {
+    return BlocConsumer<TodosFilterBloc, TodosFilterState>(
+      listener: (context, state) {
+        if (state is TodosFilterLoaded) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.todosFilter.toString().split('.').last),
+            ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is TodosFilterLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is TodosFilterLoaded) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(
+                    child: Text(
+                      title,
                       style: const TextStyle(
-                        color: TheColors.white,
-                      ),
-                    ),
-                    subtitle: Text(
-                      state.todos[i].description,
-                      style: const TextStyle(
-                        color: TheColors.deepWhite,
-                      ),
-                    ),
-                    leading: GestureDetector(
-                      onTap: () {
-                        context.read<TodosBloc>().add(
-                              UpdateTodos(
-                                todo: state.todos[i].copyWith(
-                                  isCompleted: true,
-                                ),
-                              ),
-                            );
-                      },
-                      child: Icon(
-                        state.todos[i].isCompleted == true
-                            ? CupertinoIcons.checkmark_alt_circle_fill
-                            : CupertinoIcons.checkmark_alt_circle,
-                        color: TheColors.white,
-                      ),
-                    ),
-                    trailing: GestureDetector(
-                      onTap: () {
-                        context
-                            .read<TodosBloc>()
-                            .add(DeleteTodos(todo: state.todos[i]));
-                      },
-                      child: const Icon(
-                        CupertinoIcons.trash,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
                         color: TheColors.white,
                       ),
                     ),
                   ),
-                );
-              },
-            );
-          }
-          return const Center(child: Text("عفوا هنالك خطأ ما!"));
-        },
-      ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.filteredTodos.length,
+                  itemBuilder: (context, i) {
+                    return Container(
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: TheColors.black,
+                      ),
+                      child: ListTile(
+                        title: Text(
+                          state.filteredTodos[i].task,
+                          style: const TextStyle(
+                            color: TheColors.white,
+                          ),
+                        ),
+                        subtitle: Text(
+                          state.filteredTodos[i].description,
+                          style: const TextStyle(
+                            color: TheColors.deepWhite,
+                          ),
+                        ),
+                        leading: InkWell(
+                          onTap: () {
+                            context.read<TodosBloc>().add(
+                                  UpdateTodos(
+                                    todo: state.filteredTodos[i].copyWith(
+                                      isCompleted: true,
+                                    ),
+                                  ),
+                                );
+                          },
+                          child: const Icon(
+                            Icons.add_task,
+                            color: TheColors.white,
+                          ),
+                        ),
+                        trailing: InkWell(
+                          onTap: () {
+                            context.read<TodosBloc>().add(
+                                  DeleteTodos(todo: state.filteredTodos[i]),
+                                );
+                          },
+                          child: const Icon(
+                            CupertinoIcons.trash,
+                            color: TheColors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+        return const Center(child: Text("عفوا هنالك خطأ ما!"));
+      },
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
+import 'package:todoapp/BL/blocs/todo/todo_filter_bloc.dart';
 import 'package:todoapp/DL/entities/todo.dart';
 import 'package:todoapp/router/app_router.dart';
 import 'package:todoapp/utils/the_colors.dart';
@@ -76,6 +77,11 @@ class App extends StatelessWidget {
                 ],
               ),
             ),
+        ),
+        BlocProvider(
+          create: (context) => TodosFilterBloc(
+            todosBloc: BlocProvider.of<TodosBloc>(context),
+          ),
         ),
       ],
       child: MaterialApp(

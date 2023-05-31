@@ -1,4 +1,4 @@
-part of '../../blocs/todo/todo_blocs.dart';
+part of 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 
 abstract class TodosState extends Equatable {
   const TodosState();
