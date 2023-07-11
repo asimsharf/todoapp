@@ -8,13 +8,21 @@ class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const Splash());
+        return MaterialPageRoute(
+          builder: (_) => const Splash(),
+        );
       case '/home':
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(
+          builder: (_) => const Home(),
+        );
       case '/create_todos':
-        return MaterialPageRoute(builder: (_) => const CreateTodos());
+        return MaterialPageRoute(
+          builder: (_) => const CreateTodos(),
+        );
       default:
-        return MaterialPageRoute(builder: (context) => const NotFound());
+        return MaterialPageRoute(
+          builder: (context) => const NotFound(),
+        );
     }
   }
 }

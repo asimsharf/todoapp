@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 import 'package:todoapp/DL/entities/todo.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
 import '../../../utils/constants.dart';
+import '../../widgets/the_text_field.dart';
 
 class CreateTodos extends StatelessWidget {
   const CreateTodos({Key? key}) : super(key: key);
@@ -39,7 +39,11 @@ class CreateTodos extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            _inputField(
+            /*
+             * theTextField is a widget that I created in the widgets folder
+             * to make the code more readable and reusable
+             */
+            theTextField(
               context: context,
               controller: theTaskController,
               hintText: "ادخل عنوان المهمة",
@@ -53,7 +57,11 @@ class CreateTodos extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            _inputField(
+            /*
+             * theTextField is a widget that I created in the widgets folder
+             * to make the code more readable and reusable
+             */
+            theTextField(
               context: context,
               controller: theDescriptionController,
               hintText: "ادخل وصف المهمة",
@@ -78,33 +86,6 @@ class CreateTodos extends StatelessWidget {
               },
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _inputField({context, controller, hintText}) {
-    return TextField(
-      controller: controller,
-      onChanged: (value) {},
-      textAlign: TextAlign.right,
-      style: const TextStyle(
-        color: TheColors.deepWhite,
-      ),
-      maxLengthEnforcement: MaxLengthEnforcement.enforced,
-      decoration: InputDecoration(
-        fillColor: TheColors.darkGrey,
-        filled: true,
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: TheColors.whiteGrey,
-          fontSize: 14,
-        ),
-        border: const OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.all(
-            Radius.circular(12),
-          ),
         ),
       ),
     );

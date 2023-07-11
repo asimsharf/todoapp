@@ -14,6 +14,8 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   }
 
   void _onLoadTodos(LoadTodos event, Emitter<TodosState> emit) {
+    // final todos = await _todoRepository.getAllTodos();
+
     emit(TodosLoadedState(todos: event.todos));
   }
 
