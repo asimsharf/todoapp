@@ -2,21 +2,22 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/DL/entities/todo.dart';
 
+import '../../../DL/services/todo_services.dart';
+
 part '../../events/todo/todo_events.dart';
 part '../../states/todo/todo_states.dart';
 
 class TodosBloc extends Bloc<TodosEvent, TodosState> {
-  TodosBloc() : super(TodosLoadingState()) {
+  TodosBloc({required TodoServices todoServices}) : super(TodosLoadingState()) {
     on<LoadTodos>(_onLoadTodos);
     on<AddTodos>(_onAddTodos);
     on<UpdateTodos>(_onUpdateTodos);
     on<DeleteTodos>(_onDeleteTodos);
   }
 
-  void _onLoadTodos(LoadTodos event, Emitter<TodosState> emit) {
-    // final todos = await _todoRepository.getAllTodos();
-
-    emit(TodosLoadedState(todos: event.todos));
+  void _onLoadTodos(LoadTodos event, Emitter<TodosState> emit) async {
+    final todos = await TodoServices().getAllTodos();
+    emit(TodosLoadedState(todos: todos));
   }
 
   void _onAddTodos(AddTodos event, Emitter<TodosState> emit) {

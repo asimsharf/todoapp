@@ -1,8 +1,7 @@
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:todoapp/DL/services/todo_services.dart';
 import 'package:todoapp/main.dart';
 import 'package:todoapp/router/app_router.dart';
 
@@ -12,6 +11,7 @@ void main() {
       App(
         appRouter: AppRouter(),
         connectivity: Connectivity(),
+        todoServices: TodoServices(),
       ),
     );
 

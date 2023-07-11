@@ -5,7 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 import 'package:todoapp/BL/blocs/todo/todo_filter_bloc.dart';
-import 'package:todoapp/DL/entities/todo.dart';
+import 'package:todoapp/DL/services/todo_services.dart';
 import 'package:todoapp/router/app_router.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
@@ -21,6 +21,7 @@ Future main() async {
     App(
       appRouter: AppRouter(),
       connectivity: Connectivity(),
+      todoServices: TodoServices(),
     ),
   );
 }
@@ -28,11 +29,13 @@ Future main() async {
 class App extends StatelessWidget {
   final AppRouter appRouter;
   final Connectivity connectivity;
+  final TodoServices todoServices;
 
   const App({
     super.key,
     required this.appRouter,
     required this.connectivity,
+    required this.todoServices,
   });
 
   @override
@@ -40,23 +43,10 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => TodosBloc()
-            ..add(
-              LoadTodos(
-                todos: [
-                  Todo(
-                    id: '1',
-                    task: 'عنوان المهمة الاول',
-                    description: 'عبارة عن وصف للمهمة الاول يكون هنا',
-                  ),
-                  Todo(
-                    id: '2',
-                    task: 'عنوان المهمة الثاني',
-                    description: 'عبارة عن صوف للمهمة الثاني يكون هنا',
-                  ),
-                ],
-              ),
-            ),
+          create: (context) {
+            return TodosBloc(todoServices: todoServices)
+              ..add(const LoadTodos());
+          },
         ),
         BlocProvider(
           create: (context) => TodosFilterBloc(

@@ -41,60 +41,63 @@ BlocConsumer<TodosFilterBloc, TodosFilterState> theTodos(String title) {
                   ),
                 ),
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.filteredTodos.length,
-                itemBuilder: (context, i) {
-                  Constance.theLogger.d(state.filteredTodos[i].id);
-                  return Container(
-                    margin: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: TheColors.black,
-                    ),
-                    child: ListTile(
-                      title: Text(
-                        state.filteredTodos[i].task,
-                        style: const TextStyle(
-                          color: TheColors.white,
-                        ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.7,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.filteredTodos.length,
+                  itemBuilder: (context, i) {
+                    Constance.theLogger.d(state.filteredTodos[i].id);
+                    return Container(
+                      margin: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: TheColors.black,
                       ),
-                      subtitle: Text(
-                        state.filteredTodos[i].description,
-                        style: const TextStyle(
-                          color: TheColors.deepWhite,
+                      child: ListTile(
+                        title: Text(
+                          state.filteredTodos[i].id.toString(),
+                          style: const TextStyle(
+                            color: TheColors.white,
+                          ),
                         ),
-                      ),
-                      leading: InkWell(
-                        onTap: () {
-                          todosBloc.add(
-                            UpdateTodos(
-                              todo: state.filteredTodos[i].copyWith(
-                                isCompleted:
-                                    !state.filteredTodos[i].isCompleted!,
+                        subtitle: Text(
+                          state.filteredTodos[i].todo,
+                          style: const TextStyle(
+                            color: TheColors.white,
+                          ),
+                        ),
+                        leading: InkWell(
+                          onTap: () {
+                            todosBloc.add(
+                              UpdateTodos(
+                                todo: state.filteredTodos[i].copyWith(
+                                  isCompleted:
+                                      !state.filteredTodos[i].isCompleted!,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        child: const Icon(
-                          Icons.add_task,
-                          color: TheColors.white,
+                            );
+                          },
+                          child: const Icon(
+                            Icons.add_task,
+                            color: TheColors.white,
+                          ),
+                        ),
+                        trailing: InkWell(
+                          onTap: () {
+                            todosBloc.add(
+                              DeleteTodos(todo: state.filteredTodos[i]),
+                            );
+                          },
+                          child: const Icon(
+                            CupertinoIcons.trash,
+                            color: TheColors.white,
+                          ),
                         ),
                       ),
-                      trailing: InkWell(
-                        onTap: () {
-                          todosBloc.add(
-                            DeleteTodos(todo: state.filteredTodos[i]),
-                          );
-                        },
-                        child: const Icon(
-                          CupertinoIcons.trash,
-                          color: TheColors.white,
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ],
           ),

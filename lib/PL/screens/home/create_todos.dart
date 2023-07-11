@@ -5,7 +5,6 @@ import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 import 'package:todoapp/DL/entities/todo.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
-import '../../../utils/constants.dart';
 import '../../widgets/the_text_field.dart';
 
 class CreateTodos extends StatelessWidget {
@@ -14,7 +13,6 @@ class CreateTodos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController theTaskController = TextEditingController();
-    TextEditingController theDescriptionController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -57,16 +55,6 @@ class CreateTodos extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            /*
-             * theTextField is a widget that I created in the widgets folder
-             * to make the code more readable and reusable
-             */
-            theTextField(
-              context: context,
-              controller: theDescriptionController,
-              hintText: "ادخل وصف المهمة",
-            ),
-            const SizedBox(height: 10),
             CupertinoButton(
               color: TheColors.secondary,
               child: const Text(
@@ -77,9 +65,9 @@ class CreateTodos extends StatelessWidget {
               ),
               onPressed: () {
                 Todo todo = Todo(
-                  id: Constance.theID,
-                  task: theTaskController.text,
-                  description: theDescriptionController.text,
+                  id: 1,
+                  userId: 1,
+                  todo: theTaskController.text,
                 );
                 context.read<TodosBloc>().add(AddTodos(todo: todo));
                 Navigator.of(context).pop();
