@@ -6,12 +6,13 @@ import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 import 'package:todoapp/DL/entities/todo.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
+import '../../../utils/constants.dart';
+
 class CreateTodos extends StatelessWidget {
   const CreateTodos({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController theIdController = TextEditingController();
     TextEditingController theTaskController = TextEditingController();
     TextEditingController theDescriptionController = TextEditingController();
 
@@ -30,20 +31,6 @@ class CreateTodos extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            const Text(
-              "معرف المهمة",
-              style: TextStyle(
-                fontSize: 16,
-                color: TheColors.white,
-              ),
-            ),
-            const SizedBox(height: 10),
-            _inputField(
-              context: context,
-              controller: theIdController,
-              hintText: "ادخل معرف المهمة",
-            ),
-            const SizedBox(height: 10),
             const Text(
               "عنوان المهمة",
               style: TextStyle(
@@ -82,7 +69,7 @@ class CreateTodos extends StatelessWidget {
               ),
               onPressed: () {
                 Todo todo = Todo(
-                  id: theIdController.text,
+                  id: Constance.theID,
                   task: theTaskController.text,
                   description: theDescriptionController.text,
                 );

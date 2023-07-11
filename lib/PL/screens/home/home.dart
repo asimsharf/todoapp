@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todoapp/BL/blocs/todo/todo_blocs.dart';
 import 'package:todoapp/BL/blocs/todo/todo_filter_bloc.dart';
+import 'package:todoapp/utils/constants.dart';
 import 'package:todoapp/utils/enums.dart';
 import 'package:todoapp/utils/the_colors.dart';
 
@@ -99,6 +100,7 @@ class Home extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: state.filteredTodos.length,
                   itemBuilder: (context, i) {
+                    Constance.theLogger.d(state.filteredTodos[i].id);
                     return Container(
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(

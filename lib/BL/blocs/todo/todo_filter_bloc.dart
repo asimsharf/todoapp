@@ -20,7 +20,7 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
     on<UpdateFilterTodos>(_onUpdateTodos);
 
     _streamSubscription = _todosBloc.stream.listen((state) {
-      add(const UpdateFilterTodos());
+      add(const UpdateFilter());
     });
   }
 

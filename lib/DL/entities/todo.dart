@@ -1,22 +1,20 @@
 import 'package:equatable/equatable.dart';
+import 'package:todoapp/utils/constants.dart';
 
 class Todo extends Equatable {
   final String id;
   final String task;
   final String description;
-  bool? isCompleted;
-  bool? isCancelled;
+  final bool? isCompleted;
+  final bool? isCancelled;
 
-  Todo({
+  const Todo({
     required this.id,
     required this.task,
     required this.description,
-    this.isCompleted,
-    this.isCancelled,
-  }) {
-    isCompleted = isCompleted ?? false;
-    isCancelled = isCancelled ?? false;
-  }
+    this.isCompleted = false,
+    this.isCancelled = false,
+  });
 
   Todo copyWith({
     String? id,
@@ -37,7 +35,15 @@ class Todo extends Equatable {
   List<Object?> get props => [id, task, description, isCompleted, isCancelled];
 
   static List<Todo> todos = [
-    Todo(id: '1', task: 'Sample Todo 1', description: 'this is a test todo'),
-    Todo(id: '2', task: 'Sample Todo 2', description: 'this is a test todo'),
+    Todo(
+      id: Constance.theID,
+      task: 'انشاء تطبيق مساند',
+      description: "تفاصيل عن المهمة, وهي عبارة عن تطبيق مساند للمهام اليومية",
+    ),
+    Todo(
+      id: Constance.theID,
+      task: 'انشاء تطبيق مساند',
+      description: "تفاصيل عن المهمة, وهي عبارة عن تطبيق مساند للمهام اليومية",
+    ),
   ];
 }
