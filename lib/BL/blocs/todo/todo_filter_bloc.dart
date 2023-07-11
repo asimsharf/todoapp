@@ -15,7 +15,7 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
 
   TodosFilterBloc({required TodosBloc todosBloc})
       : _todosBloc = todosBloc,
-        super(const TodosFilterLoading()) {
+        super(const TodosFilterLoadingState()) {
     on<UpdateFilter>(_onUpdateFilter);
     on<UpdateFilterTodos>(_onUpdateTodos);
 
@@ -25,12 +25,12 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
   }
 
   void _onUpdateFilter(UpdateFilter event, Emitter<TodosFilterState> emit) {
-    if (state is TodosFilterLoading) {
+    if (state is TodosFilterLoadingState) {
       add(const UpdateFilterTodos(todosFilter: TodosFilter.pending));
     }
 
-    if (state is TodosFilterLoaded) {
-      final state = this.state as TodosFilterLoaded;
+    if (state is TodosFilterLoadedState) {
+      final state = this.state as TodosFilterLoadedState;
       add(UpdateFilterTodos(todosFilter: state.todosFilter));
     }
   }
@@ -38,7 +38,7 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
   void _onUpdateTodos(UpdateFilterTodos event, Emitter<TodosFilterState> emit) {
     final state = _todosBloc.state;
 
-    if (state is TodosLoaded) {
+    if (state is TodosLoadedState) {
       List<Todo> todos = state.todos.where((todo) {
         switch (event.todosFilter) {
           case TodosFilter.all:
@@ -52,10 +52,8 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
         }
       }).toList();
 
-      emit(TodosFilterLoaded(
-        filteredTodos: todos,
-        todosFilter: event.todosFilter,
-      ));
+      emit(TodosFilterLoadedState(
+          filteredTodos: todos, todosFilter: event.todosFilter));
     }
   }
 

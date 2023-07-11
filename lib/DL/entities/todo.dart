@@ -18,18 +18,20 @@ class Todo extends Equatable {
     isCancelled = isCancelled ?? false;
   }
 
-  Todo copyWith(
-      {String? id,
-      String? task,
-      String? description,
-      bool? isCompleted,
-      bool? isCancelled}) {
-    return Todo(
-      id: id ?? this.id,
-      task: task ?? this.task,
-      description: description ?? this.description,
-    );
-  }
+  Todo copyWith({
+    String? id,
+    String? task,
+    String? description,
+    bool? isCompleted,
+    bool? isCancelled,
+  }) =>
+      Todo(
+        id: id ?? this.id,
+        task: task ?? this.task,
+        description: description ?? this.description,
+        isCompleted: isCompleted ?? this.isCompleted,
+        isCancelled: isCancelled ?? this.isCancelled,
+      );
 
   @override
   List<Object?> get props => [id, task, description, isCompleted, isCancelled];

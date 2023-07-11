@@ -64,7 +64,7 @@ class Home extends StatelessWidget {
   BlocConsumer<TodosFilterBloc, TodosFilterState> _todos(String title) {
     return BlocConsumer<TodosFilterBloc, TodosFilterState>(
       listener: (context, state) {
-        if (state is TodosFilterLoaded) {
+        if (state is TodosFilterLoadedState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.todosFilter.toString().split('.').last),
@@ -73,10 +73,10 @@ class Home extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is TodosFilterLoading) {
+        if (state is TodosFilterLoadingState) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is TodosFilterLoaded) {
+        if (state is TodosFilterLoadedState) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -123,7 +123,8 @@ class Home extends StatelessWidget {
                             context.read<TodosBloc>().add(
                                   UpdateTodos(
                                     todo: state.filteredTodos[i].copyWith(
-                                      isCompleted: true,
+                                      isCompleted:
+                                          !state.filteredTodos[i].isCompleted!,
                                     ),
                                   ),
                                 );

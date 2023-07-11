@@ -21,7 +21,7 @@ class CreateTodos extends StatelessWidget {
       ),
       body: BlocListener<TodosBloc, TodosState>(
         listener: (context, state) {
-          if (state is TodosLoaded) {
+          if (state is TodosLoadedState) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("تم إضافة المهمة بنجاح")),
             );

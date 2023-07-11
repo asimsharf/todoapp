@@ -7,15 +7,15 @@ abstract class TodosFilterState extends Equatable {
   List<Object> get props => [];
 }
 
-class TodosFilterLoading extends TodosFilterState {
-  const TodosFilterLoading();
+class TodosFilterLoadingState extends TodosFilterState {
+  const TodosFilterLoadingState();
 }
 
-class TodosFilterLoaded extends TodosFilterState {
+class TodosFilterLoadedState extends TodosFilterState {
   final List<Todo> filteredTodos;
   final TodosFilter todosFilter;
 
-  const TodosFilterLoaded({
+  const TodosFilterLoadedState({
     required this.filteredTodos,
     this.todosFilter = TodosFilter.all,
   });
