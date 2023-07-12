@@ -10,4 +10,14 @@ void main() {
 
     expect(todos, isA<List<Todo>>());
   });
+
+  test('Post a todo', () async {
+    final Todo todo = await todosService.addTodo(
+      userId: 5,
+      todo: 'Test todo',
+      isCompleted: false,
+    );
+
+    expect(todo, isA<Todo>());
+  });
 }

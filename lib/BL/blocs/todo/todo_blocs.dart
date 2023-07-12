@@ -20,10 +20,29 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
     emit(TodosLoadedState(todos: todos));
   }
 
-  void _onAddTodos(AddTodos event, Emitter<TodosState> emit) {
+  void _onAddTodos(AddTodos event, Emitter<TodosState> emit) async {
     final state = this.state;
     if (state is TodosLoadedState) {
+      final todo = Todo(
+        id: state.todos.last.id + 1,
+        userId: event.todo.userId,
+        todo: event.todo.todo,
+        isCompleted: event.todo.isCompleted,
+      );
+
+      await TodoServices().addTodo(
+        userId: todo.userId,
+        todo: todo.todo,
+        isCompleted: todo.isCompleted!,
+      );
+
       emit(TodosLoadedState(todos: List.from(state.todos)..add(event.todo)));
+
+      // emit(TodosLoadedState(todos: List.from(state.todos)..add(todo)));
+      // emit(TodosLoadedState(todos: [...state.todos, todo]));
+      // emit(TodosLoadedState(todos: state.todos..add(todo)));
+      // emit(TodosLoadedState(todos: state.todos + [todo]));
+      // emit(TodosLoadedState(todos: [...state.todos, todo]));
     }
   }
 

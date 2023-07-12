@@ -10,9 +10,7 @@ import '../../utils/the_colors.dart';
 Widget theTextField({context, controller, hintText}) {
   return TextField(
     controller: controller,
-    onChanged: (value) {
-      controller.text = value;
-    },
+    onChanged: (value) {},
     textAlign: TextAlign.right,
     style: const TextStyle(
       color: TheColors.deepWhite,

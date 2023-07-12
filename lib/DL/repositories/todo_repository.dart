@@ -36,22 +36,21 @@ class TodoRepository {
     );
   }
 
-  Future<Todo> addTodo(
-      {required int id,
-      required int userId,
-      required String todo,
-      bool isCompleted = false,
-      bool isCancelled = false}) async {
+  Future<Todo> addTodo({
+    required int userId,
+    required String todo,
+    bool isCompleted = false,
+  }) async {
     final response = await http.post(
-      Uri.parse('https://dummyjson.com/todos'),
-      body: {
-        'id': id,
+      Uri.parse('https://dummyjson.com/todos/add'),
+      body: json.encode({
         'userId': userId,
         'todo': todo,
-        'isCompleted': isCompleted,
-        'isCancelled': isCancelled,
-      },
+        'completed': isCompleted,
+      }),
     );
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
@@ -67,20 +66,19 @@ class TodoRepository {
     );
   }
 
-  Future<Todo> updateTodo(
-      {required int id,
-      required int userId,
-      required String todo,
-      bool isCompleted = false,
-      bool isCancelled = false}) async {
+  Future<Todo> updateTodo({
+    required int id,
+    required int userId,
+    required String todo,
+    bool isCompleted = false,
+  }) async {
     final response = await http.put(
       Uri.parse('https://dummyjson.com/todos/$id'),
       body: {
         'id': id,
         'userId': userId,
         'todo': todo,
-        'isCompleted': isCompleted,
-        'isCancelled': isCancelled,
+        'completed': isCompleted,
       },
     );
 
