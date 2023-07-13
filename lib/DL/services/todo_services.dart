@@ -9,33 +9,19 @@ class TodoServices {
     return await _todoRepository.getAllTodos();
   }
 
-  Future<Todo> getTodoById(int id) async {
-    return await _todoRepository.getTodoById(id);
+  Future<Todo> getTodoById({required int id}) async {
+    return await _todoRepository.getTodoById(id: id);
   }
 
-  Future<Todo> addTodo({
-    required int userId,
-    required String todo,
-    bool isCompleted = false,
-  }) async {
-    return await _todoRepository.addTodo(
-      userId: userId,
-      todo: todo,
-      isCompleted: isCompleted,
-    );
+  Future<Todo> addTodo({required Map body}) async {
+    return await _todoRepository.addTodo(body: body);
   }
 
-  Future<Todo> updateTodo({
-    required int id,
-    required int userId,
-    required String todo,
-    bool isCompleted = false,
-  }) async {
-    return await _todoRepository.updateTodo(
-      id: id,
-      userId: userId,
-      todo: todo,
-      isCompleted: isCompleted,
-    );
+  Future<Todo> updateTodo({required int id, required Map body}) async {
+    return await _todoRepository.updateTodo(id: id, body: body);
+  }
+
+  Future<Todo> deleteTodo({required int id}) async {
+    return await _todoRepository.deleteTodo(id: id);
   }
 }

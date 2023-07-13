@@ -45,10 +45,8 @@ class TodosFilterBloc extends Bloc<TodosFilterEvent, TodosFilterState> {
             return true;
           case TodosFilter.completed:
             return todo.isCompleted!;
-          case TodosFilter.cancelled:
-            return todo.isCancelled!;
           case TodosFilter.pending:
-            return !(todo.isCancelled! || todo.isCompleted!);
+            return !(todo.isCompleted!);
         }
       }).toList();
 

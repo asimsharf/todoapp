@@ -13,10 +13,31 @@ void main() {
 
   test('Post a todo', () async {
     final Todo todo = await todosService.addTodo(
-      userId: 5,
-      todo: 'Test todo',
-      isCompleted: false,
+      body: {
+        'userId': 5,
+        'todo': 'Test todo',
+        'isCompleted': false,
+      },
     );
+
+    expect(todo, isA<Todo>());
+  });
+
+  test('Update a todo', () async {
+    final Todo todo = await todosService.updateTodo(
+      id: 1,
+      body: {
+        'userId': 5,
+        'todo': 'Test todo',
+        'isCompleted': false,
+      },
+    );
+
+    expect(todo, isA<Todo>());
+  });
+
+  test('Delete a todo', () async {
+    final Todo todo = await todosService.deleteTodo(id: 1);
 
     expect(todo, isA<Todo>());
   });

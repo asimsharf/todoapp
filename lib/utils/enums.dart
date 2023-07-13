@@ -6,6 +6,5 @@ enum ConnectionType {
 enum TodosFilter {
   all,
   completed,
-  cancelled,
   pending,
 }
